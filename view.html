@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>걸그룹 데이터 보기</title>
+</head>
+<body>
+  <h1>저장된 걸그룹 목록</h1>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>그룹명</th>
+        <th>데뷔일</th>
+        <th>멤버수</th>
+        <th>소속사</th>
+      </tr>
+    </thead>
+    <tbody id="groupTableBody"></tbody>
+  </table>
+
+  <br>
+  <a href="index.html">데이터 입력 페이지로 이동</a>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
+
+    // Firebase 설정
+    const firebaseConfig = {
+      apiKey: "AIzaSyCPzzeG2J_1RywQhXG_vjkFbkAfiTCCNZw",
+      authDomain: "group-14f7c.firebaseapp.com",
+      projectId: "group-14f7c",
+      storageBucket: "group-14f7c.firebasestorage.app",
+      messagingSenderId: "474364219050",
+      appId: "1:474364219050:web:10b327f79c33dde5304ad3",
+      measurementId: "G-32LQXYCN88"
+    };
+
+    // Firebase 초기화
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app); // Firestore 연결
+
+    // Firestore에서 데이터 불러오기
+    async function loadGroupData() {
+      const tableBody = document.getElementById('groupTableBody');
+      tableBody.innerHTML = ''; // 기존 데이터 초기화
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "groups"));
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const row = document.createElement("tr");
+
+          row.innerHTML = `
+            <td>${data.groupName}</td>
+            <td>${data.debutDate}</td>
+            <td>${data.memberCount}</td>
+            <td>${data.agency}</td>
+          `;
+
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error getting documents: ", error);
+      }
+    }
+
+    // 페이지 로드 시 데이터 불러오기
+    window.onload = loadGroupData;
+  </script>
+</body>
+</html>

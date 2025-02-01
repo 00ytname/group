@@ -15,14 +15,16 @@
     <button type="submit">저장</button>
   </form>
 
-  <h2>저장된 데이터</h2>
-  <ul id="dataList"></ul>
+  <br>
+  <!-- 데이터 보기 버튼 추가 -->
+  <a href="view.html">
+    <button>데이터 보기</button>
+  </a>
 
   <!-- Firebase SDK -->
   <script type="module">
-    // Firebase SDK 불러오기
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
 
     // Firebase 설정
@@ -39,7 +41,7 @@
     // Firebase 초기화
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
-    const db = getFirestore(app); // Firestore 데이터베이스 연결
+    const db = getFirestore(app); // Firestore 연결
 
     // 데이터 저장 함수
     async function saveGroupData(event) {
@@ -61,36 +63,14 @@
 
         alert("데이터가 Firestore에 저장되었습니다!");
         document.getElementById('groupForm').reset(); // 폼 초기화
-        loadGroupData(); // 저장 후 데이터 다시 불러오기
       } catch (error) {
         console.error("Error adding document: ", error);
         alert("데이터 저장 실패!");
       }
     }
 
-    // Firestore에서 데이터 불러오는 함수
-    async function loadGroupData() {
-      const dataList = document.getElementById('dataList');
-      dataList.innerHTML = ''; // 기존 목록 초기화
-
-      try {
-        const querySnapshot = await getDocs(collection(db, "groups"));
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          const listItem = document.createElement("li");
-          listItem.textContent = `${data.groupName} - ${data.debutDate} - ${data.memberCount}명 - ${data.agency}`;
-          dataList.appendChild(listItem);
-        });
-      } catch (error) {
-        console.error("Error getting documents: ", error);
-      }
-    }
-
     // 폼 제출 이벤트 리스너 추가
     document.getElementById('groupForm').addEventListener('submit', saveGroupData);
-
-    // 페이지 로드 시 데이터 불러오기
-    window.onload = loadGroupData;
   </script>
 </body>
 </html>

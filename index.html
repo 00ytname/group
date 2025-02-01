@@ -15,22 +15,28 @@
     <button type="submit">저장</button>
   </form>
 
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-<script>
-  // Firebase 설정
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyCPzzeG2J_1RywQhXG_vjkFbkAfiTCCNZw",
+    authDomain: "group-14f7c.firebaseapp.com",
+    projectId: "group-14f7c",
+    storageBucket: "group-14f7c.firebasestorage.app",
+    messagingSenderId: "474364219050",
+    appId: "1:474364219050:web:10b327f79c33dde5304ad3",
+    measurementId: "G-32LQXYCN88"
   };
 
-  // Firebase 초기화
-  const app = firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore(app); // Firestore 연결
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 </script>
 
 </body>
